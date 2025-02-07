@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Query Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>MySQL Query Solution Finder</h1>
+        <form method="POST">
+            <textarea name="search_term" placeholder="Paste your question here..." required></textarea>
+            <button type="submit">Find Answer</button>
+        </form>
+
+        {% if results %}
+            <h2>Results:</h2>
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <strong>Question:</strong> {{ result.question }} <br>
+                        <strong>Similarity:</strong> {{ result.similarity }}% <br>
+                        <strong>Source Page:</strong> <a href="{{ result.source_url }}" target="_blank">View Source</a><br>
+                        <strong>Solution:</strong> 
+                        {% if "No link found" in result.solution_link %}
+                            No solution link available.
+                        {% else %}
+                            <a href="{{ result.solution_link }}" target="_blank">Click here</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
